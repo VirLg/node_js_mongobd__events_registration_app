@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import Joi from "joi";
+import { handleSaveError, runValidatorsAtUpdate } from "./hooke.js";
 
 const validateEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -11,7 +12,7 @@ const eventSchema = new Schema(
       unique: true,
       match: validateEmail,
     },
-    title: {
+    name: {
       type: String,
       required: true,
     },
@@ -25,6 +26,10 @@ const eventSchema = new Schema(
 
 const EventModel = model("event", eventSchema);
 export default EventModel;
+
+eventSchema.post("save", handleSaveError);
+eventSchema.pre("findOneAndUpdate", runValidatorsAtUpdate);
+eventSchema.post("findOneAndUpdate", handleSaveError);
 
 export const eventJoiAdd = Joi.object({
   email: Joi.string().pattern(validateEmail).required(),
