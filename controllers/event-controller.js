@@ -10,7 +10,8 @@ const getAllEvents = async (req, res, next) => {
 const getParticipants = async (req, res, next) => {
   //   console.log("req", req.body);
   const result = await EventModel.find();
-  res.json(result);
+  const title = result.map((el) => ({ name: el.name, email: el.email }));
+  res.json(title);
   console.log("res", res);
 };
 const addEvent = async (req, res) => {
@@ -19,4 +20,8 @@ const addEvent = async (req, res) => {
   res.status(201).json(result);
 };
 
-export default { getParticipants, getAllEvents, addEvent };
+const toSort = async (req, res, next) => {
+  console.log("req", req.body);
+  await EventModel.find().sort({ name: "descending" });
+};
+export default { getParticipants, getAllEvents, addEvent, toSort };
