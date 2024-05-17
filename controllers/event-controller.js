@@ -1,11 +1,4 @@
-import EventModel from "../model/EventModel.js";
-// import { userJoiSignin } from "../model/AuthModel.js";
-// import {
-//   httpError,
-//   validateHashPassword,
-//   generateToken,
-// } from "../helpers/index.js";
-// import bcrypt from "bcrypt";
+import EventModel, { eventJoiAdd } from "../model/EventModel.js";
 
 const getAllEvents = async (req, res, next) => {
   //   console.log("req", req.body);
